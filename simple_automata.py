@@ -33,9 +33,9 @@ def automata(couple = 1):
 			elif a1[i] == 0:
 				a2[i+1] = transition(p)
 		if a1[i] == 1:
-			a1[i+1] = 0*transition(1-p)
+			a1[i+1] = 0
 		if a2[i] == 1:
-			a2[i+1] = 0*transition(1-p)
+			a2[i+1] = 0
 	return a1, a2
 
 def sync(x1, x2):
@@ -47,22 +47,8 @@ def sync(x1, x2):
 	n, x = np.histogram(psi, bins=40)
 	return psi,x[:-1], n / np.sum(n).astype(float)
 
-'''
-for i in range(100):
-	a1_async, a2_async = automata(couple = 1)
-	a1_sync, a2_sync = automata(couple = 100)
-
-	x1, n1a = sync(a1_async, a2_async)
-	x2, n2a = sync(a1_sync, a2_sync)
-	if i == 0:
-		n1 = n1a
-		n2 = n2a
-	else:
-		n1 = n1 + n1a
-		n2 = n2 + n2a
-'''
 a1_async, a2_async = automata(couple = 1)
-a1_sync, a2_sync = automata(couple = 100)
+a1_sync, a2_sync = automata(couple = 50)
 
 psi_async, x1, n1 = sync(a1_async, a2_async)
 psi_sync, x2, n2 = sync(a1_sync, a2_sync)
@@ -70,12 +56,10 @@ psi_sync, x2, n2 = sync(a1_sync, a2_sync)
 plt.figure()
 plt.subplot(1,2,1)
 sns.distplot(psi_async, kde = False, norm_hist = True)
-#plt.plot(x1, n1)
 plt.title(r'uncoupled')
 plt.ylabel(r'$\Psi$ count', fontsize = 20)
 plt.subplot(1,2,2)
 plt.title(r'coupled')
 sns.distplot(psi_sync, kde = False, norm_hist=True)
-#plt.plot(x2, n2)
 plt.tight_layout()
 plt.savefig('phase_distribution.pdf', dpi = 600)
