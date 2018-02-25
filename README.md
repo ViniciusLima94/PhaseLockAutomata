@@ -1,2 +1,2 @@
 # PhaseLockAutomata
-Synchronization via Phase Lock in coupled cellular automata
+Synchronization via Phase Lock in coupled cellular automata and Rossler oscilators
